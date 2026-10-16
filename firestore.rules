@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function authorized() {
+      return request.auth != null
+        && request.auth.uid == 'REPLACE_WITH_AUTH_USER_UID';
+    }
+    match /{document=**} {
+      allow read, write: if authorized();
+    }
+  }
+}
